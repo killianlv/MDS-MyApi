@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddSwaggerGen(c => { c.EnableAnnotations(); });
+
 
 
 var app = builder.Build();
