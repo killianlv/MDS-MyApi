@@ -85,8 +85,29 @@ namespace MyApi.Controllers
 
             return Ok(result);
         }
-        
-        
+
+
+        [HttpPut("addStock")]
+        [SwaggerOperation(Summary = "add stock to a product", Description = "Pass product id as parameter and stock to add")]
+        [ProducesResponseType(typeof(List<Product>), 200)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ActionName("addStock")]
+        public async Task<ActionResult<List<Product>>> addStock(int id, int stock)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            
+            var result = await _productService.AddProductStock(id, stock);
+            if (result == null)
+                return NotFound("Product not found");
+
+            return Ok(result);
+        }
+
+
         [HttpDelete("id")]
         [SwaggerOperation(Summary = "Delete a product", Description = "Pass product id as parameter")]
         [ProducesResponseType(StatusCodes.Status200OK)]

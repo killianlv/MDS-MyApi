@@ -68,5 +68,17 @@ namespace MyApi.Services.ProductService
             var model = _mapper.Map<ProductEntity, Product>(current);
             return model;
         }
+
+        public async Task<Product?> AddProductStock(int id, int stock)
+        {
+            var current = await _repository.Get(id);
+            if (current == null) return null;
+            current.Stock += stock;
+            await _repository.Update(current);
+            var updated = await _repository.Get(id);
+            if (updated == null) return null;
+            var model = _mapper.Map<ProductEntity, Product>(updated);
+            return model;
+        }
     }
 }
