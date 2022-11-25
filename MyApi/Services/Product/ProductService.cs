@@ -9,15 +9,18 @@ namespace MyApi.Services.ProductService
     {
 
         private readonly IProductRepository _repository;
+        private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository repository)
+
+        public ProductService(IProductRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
         
         public async Task<Product?> AddProduct(Product product)
         {
-            var entity = new ProductEntity { Name = product.Name, Stock = product.Stock };
+            var entity = _mapper.Map<Product, ProductEntity>(product);
             var id = await _repository.Create(entity);
             return await GetSigleProduct(id);
         }
@@ -37,9 +40,10 @@ namespace MyApi.Services.ProductService
             var model = new List<Product>();
             foreach(ProductEntity element in products)
             {
-                var temp = new Product { Id = element.Id, Name = element.Name, Stock = element.Stock };
+                var temp = _mapper.Map<ProductEntity, Product>(element);
                 model.Add(temp);
             }
+
             return model;
         }
         
@@ -47,7 +51,7 @@ namespace MyApi.Services.ProductService
         {
             var entity = await _repository.Get(id);
             if (entity == null) return null;
-            var model = new Product { Id = entity.Id, Name = entity.Name, Stock = entity.Stock };
+            var model = _mapper.Map<ProductEntity, Product>(entity);
             return model;
         }
         
@@ -57,16 +61,11 @@ namespace MyApi.Services.ProductService
             if (requets == null) return null;
             var current = await _repository.Get(id);
             if (current == null) return null;
-            var updated = new ProductEntity
-            {
-                Id = id,
-                Name = (requets.Name == null ? current.Name : requets.Name),
-                Stock = (requets.Stock == null ? current.Stock : requets.Stock),
-            };
+            var updated = _mapper.Map(requets, current);
             await _repository.Update(updated);
             current = await _repository.Get(id);
             if(current == null) return null;
-            var model = new Product { Id = current.Id, Name = current.Name, Stock = current.Stock };
+            var model = _mapper.Map<ProductEntity, Product>(current);
             return model;
         }
     }

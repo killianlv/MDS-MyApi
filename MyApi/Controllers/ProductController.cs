@@ -45,7 +45,7 @@ namespace MyApi.Controllers
             }
             var result = await _productService.GetSigleProduct(id);
             if (result == null)
-                return NotFound("Product nor found");
+                return NotFound("Product not found");
 
             return Ok(result);
         }
@@ -81,7 +81,7 @@ namespace MyApi.Controllers
             }
             var result = await _productService.UpdateProduct(id, requets);
             if (result == null)
-                return NotFound("Product nor found");
+                return NotFound("Product not found");
 
             return Ok(result);
         }
@@ -100,7 +100,7 @@ namespace MyApi.Controllers
             }
             var result = await _productService.DeleteProduct(id);
             if (!result)
-                return NotFound("Product nor found");
+                return NotFound("Product not found");
 
             return Ok();
         }
