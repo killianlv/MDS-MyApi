@@ -18,17 +18,22 @@ namespace MyApi.Controllers
             _productService = productService;
         }
 
-
+        
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetAllProducts()
         {
-            return await _productService.GetAllProducts();
+            var result = await _productService.GetAllProducts();
+            return Ok(result);
         }
 
-
+        
         [HttpGet("id")]
         public async Task<ActionResult<Product>> GetSigleProduct(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var result = await _productService.GetSigleProduct(id);
             if (result == null)
                 return NotFound("Product nor found");
@@ -36,34 +41,47 @@ namespace MyApi.Controllers
             return Ok(result);
         }
 
-
+        
         [HttpPost]
         public async Task<ActionResult<List<Product>>> AddProduct(Product product)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var result = await _productService.AddProduct(product);
             return Ok(result);
         }
 
-
+        
         [HttpPut("id")]
         public async Task<ActionResult<List<Product>>> UpdateProduct(int id, Product requets)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var result = await _productService.UpdateProduct(id, requets);
             if (result == null)
                 return NotFound("Product nor found");
 
             return Ok(result);
         }
-
-
+        
+        
         [HttpDelete("id")]
-        public async Task<ActionResult<List<Product>>> DeleteProduct(int id)
+        public async Task<ActionResult> DeleteProduct(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var result = await _productService.DeleteProduct(id);
-            if (result == null)
+            if (!result)
                 return NotFound("Product nor found");
 
-            return Ok(result);
+            return Ok();
         }
+        
     }
 }

@@ -10,8 +10,8 @@ using MyApi.Entity;
 namespace MyApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221125074958_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221125103656_update")]
+    partial class update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace MyApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
 
-            modelBuilder.Entity("MyApi.Models.Product", b =>
+            modelBuilder.Entity("MyApi.Entity.ProductEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

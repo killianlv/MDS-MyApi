@@ -1,7 +1,7 @@
 global using MyApi.Models;
-global using MyApi.Data;
 using MyApi.Services.ProductService;
-using Microsoft.Extensions.Hosting;
+using MyApi.Entity;
+using MyApi.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddDbContext<DataContext>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
 var app = builder.Build();
 

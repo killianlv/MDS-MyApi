@@ -4,8 +4,8 @@
     {
         Task<List<Product>> GetAllProducts();
         Task<Product?> GetSigleProduct(int id);
-        Task<List<Product>> AddProduct(Product product);
-        Task<List<Product>?> UpdateProduct(int id, Product requets);
-        Task<List<Product>?> DeleteProduct(int id);
+        Task<Product?> AddProduct(Product product);
+        Task<Product?> UpdateProduct(int id, Product requets);
+        Task<bool> DeleteProduct(int id);
     }
 }
